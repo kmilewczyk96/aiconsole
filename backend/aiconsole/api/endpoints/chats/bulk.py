@@ -18,7 +18,7 @@ async def delete_bulk_history(request: BulkDeleteRequest):
     """
     Deletes multiple Chats at once.
     request: {
-        id: list[str] - list of IDs to delete.
+        ids: list[str] - list of IDs to delete.
     }
     """
     dir_path = get_history_directory()

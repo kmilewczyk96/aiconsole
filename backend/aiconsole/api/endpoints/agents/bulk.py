@@ -15,25 +15,25 @@ class BulkDeleteRequest(BaseModel):
     ids: list[str]
 
 @router.delete("/bulk/delete")
-async def delete_bulk_materials(request: BulkDeleteRequest):
+async def delete_bulk_agents(request: BulkDeleteRequest):
     """
-    Deletes multiple Materials at once.
+    Deletes multiple Agents at once.
     request: {
         ids: list[str] - list of IDs to delete.
     }
     """
-    dir_path = get_project_assets_directory(AssetType.MATERIAL)
-    for material_id in request.ids:
-        file_path = dir_path / f'{material_id}.toml'
+    dir_path = get_project_assets_directory(AssetType.AGENT)
+    for agent_id in request.ids:
+        file_path = dir_path / f'{agent_id}.toml'
         try:
             send2trash(file_path)
         except FileNotFoundError:
             return Response(
                 status_code=status.HTTP_404_NOT_FOUND,
-                content=f'Material with id:{material_id} not found.'
+                content=f'Agent with id:{agent_id} not found.'
             )
 
     return Response(
         status_code=status.HTTP_200_OK,
-        content=f'Successfully deleted {len(request.ids)} materials.'
+        content=f'Successfully deleted {len(request.ids)} agents.'
     )
